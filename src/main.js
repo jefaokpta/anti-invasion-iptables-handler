@@ -2,7 +2,7 @@ const fs = require('fs');
 const crypto = require('crypto');
 const { execSync } = require('child_process');
 
-function iptableBlockIps(ipList) {
+function iptablesBlockIps(ipList) {
     execSync('iptables -F INPUT');
     ipList.forEach(ip => {
         try {
@@ -46,4 +46,4 @@ saveChecksumToFile(checksumFilePath, checksum);
 
 console.log('Novos ips bloqueados');
 const blockedIps = readJsonFile(blockedIpFile);
-iptableBlockIps(blockedIps);
+iptablesBlockIps(blockedIps);
