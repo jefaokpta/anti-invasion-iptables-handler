@@ -6,7 +6,7 @@ export function iptablesBlockIps(ipList) {
     execSync('iptables -F INPUT');
     ipList.forEach(ip => {
         try {
-            execSync(`iptables -A INPUT -s ${ip} -j DROP`);
+            execSync(`iptables -I INPUT -s ${ip} -j DROP`);
         } catch (error) {
             console.error(`Failed to block IP: ${ip}`, error);
         }
