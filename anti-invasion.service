@@ -1,0 +1,15 @@
+[Unit]
+Description=Executa a cada 5 min pra bloquear novos atacantes
+After=network.target
+
+
+[Service]
+StandardOutput=file:/var/log/anti-invasion.log
+#StandardOutput=null
+WorkingDirectory=/opt/anti-invasion-iptables-handler
+ExecStart=npm run run
+Restart=always
+RestartSec=300s
+
+[Install]
+WantedBy=multi-user.target
