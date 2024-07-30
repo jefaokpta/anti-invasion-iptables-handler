@@ -1,35 +1,10 @@
-const fs = require('fs');
-const crypto = require('crypto');
-const { execSync } = require('child_process');
-
-function iptablesBlockIps(ipList) {
-    execSync('iptables -F INPUT');
-    ipList.forEach(ip => {
-        try {
-            execSync(`iptables -A INPUT -s ${ip} -j DROP`);
-        } catch (error) {
-            console.error(`Failed to block IP: ${ip}`, error);
-        }
-    });
-}
-
-function calculateChecksumFromFile(filePath) {
-    const fileContent = fs.readFileSync(filePath, 'utf8');
-    return crypto.createHash('sha256').update(fileContent).digest('hex');
-}
-
-function saveChecksumToFile(filePath, checksum) {
-    fs.writeFileSync(filePath, checksum, 'utf8');
-}
-
-function readChecksumFromFile(filePath) {
-    return fs.readFileSync(filePath, 'utf8');
-}
-
-function readJsonFile(filePath) {
-    const fileContent = fs.readFileSync(filePath, 'utf8');
-    return JSON.parse(fileContent);
-}
+import {
+    calculateChecksumFromFile,
+    iptablesBlockIps,
+    readChecksumFromFile,
+    readJsonFile,
+    saveChecksumToFile
+} from "./util/functions.js";
 
 const blockedIpFile = '/tmp/blocked-ips.json';
 const checksumFilePath = 'checksum.txt';
@@ -43,7 +18,6 @@ if (checksumFile === checksum) {
 
 console.log(`Novo Checksum salvo ${checksum}`);
 saveChecksumToFile(checksumFilePath, checksum);
-
 console.log('Novos ips bloqueados');
 const blockedIps = readJsonFile(blockedIpFile);
 iptablesBlockIps(blockedIps);
