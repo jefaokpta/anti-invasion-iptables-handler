@@ -6,7 +6,7 @@ import {
     saveChecksumToFile
 } from "./util/functions.js";
 
-const blockedIpFile = '/tmp/blocked-ips.json';
+const blockedIpFile = '/opt/asterisk-api-environment/asterisk/blocked-ips.json';
 const checksumFilePath = 'checksum.txt';
 const checksumFile = readChecksumFromFile(checksumFilePath);
 const checksum = calculateChecksumFromFile(blockedIpFile);
